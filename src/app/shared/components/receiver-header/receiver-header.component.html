@@ -1,0 +1,14 @@
+<div class="page-copy">
+  <p class="page-label">Receiver mode</p>
+  <h2>Camper Leveler</h2>
+  <p class="status">{{ statusMessage() }}</p>
+</div>
+
+@if (errorMessage()) {
+  <p class="error">{{ errorMessage() }}</p>
+}
+
+@if (updatedAt()) {
+  <p class="muted">Updated at: {{ updatedAt() | date: 'mediumTime' }}</p>
+}
+

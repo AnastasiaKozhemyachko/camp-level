@@ -1,0 +1,15 @@
+<section class="page-card">
+  <app-receiver-header
+    [statusMessage]="statusMessage()"
+    [errorMessage]="errorMessage()"
+    [updatedAt]="updatedAt()"
+  ></app-receiver-header>
+
+  <app-receiver-visualizer
+    [wheelHeights]="wheelHeights()"
+    [levelStatus]="levelStatus()"
+  ></app-receiver-visualizer>
+
+  <app-receiver-metrics [pitch]="pitch()" [roll]="roll()"></app-receiver-metrics>
+</section>
+

@@ -1,0 +1,24 @@
+<div [ngClass]="getSeverityClass()" class="camper-visualizer">
+  <div class="camper-container">
+    <img class="car-image" src="assets/car.webp" alt="Car top view" />
+
+    <div class="wheel-marker" [class.active]="isWheelToLift('Front Left')" [ngClass]="'wheel-marker--' + levelStatus().severity" [class.wheel-marker--front-left]="true"></div>
+    <div class="wheel-marker" [class.active]="isWheelToLift('Front Right')" [ngClass]="'wheel-marker--' + levelStatus().severity" [class.wheel-marker--front-right]="true"></div>
+    <div class="wheel-marker" [class.active]="isWheelToLift('Rear Left')" [ngClass]="'wheel-marker--' + levelStatus().severity" [class.wheel-marker--rear-left]="true"></div>
+    <div class="wheel-marker" [class.active]="isWheelToLift('Rear Right')" [ngClass]="'wheel-marker--' + levelStatus().severity" [class.wheel-marker--rear-right]="true"></div>
+  </div>
+
+  <div class="wheels-info" aria-live="polite">
+    @for (wheel of wheelHeights(); track wheel.label) {
+      <div class="wheel-item" [class.to-lift]="isWheelToLift(wheel.label)">
+        <span class="wheel-label">{{ wheel.label }}</span>
+        <span class="wheel-lift" [class.positive]="wheel.lift > 0" [class.negative]="wheel.lift < 0">
+          {{ wheel.lift > 0 ? '↑' : '↓' }} {{ Math.abs(wheel.lift).toFixed(1) }}°
+        </span>
+      </div>
+    }
+  </div>
+</div>
+
+<p class="instruction">{{ getInstructionText() }}</p>
+

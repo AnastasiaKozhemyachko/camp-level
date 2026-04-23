@@ -1,0 +1,32 @@
+<nav class="mode-switch" aria-label="App modes">
+  <a
+    routerLink="/"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    class="mode-switch__link"
+  >
+    Receiver
+  </a>
+  <a
+    routerLink="/sender"
+    routerLinkActive="active"
+    class="mode-switch__link"
+  >
+    Sender
+  </a>
+  <a
+    routerLink="/offline"
+    routerLinkActive="active"
+    class="mode-switch__link"
+  >
+    Offline
+  </a>
+  <a
+    routerLink="/manual"
+    routerLinkActive="active"
+    class="mode-switch__link"
+  >
+    Manual
+  </a>
+</nav>
+

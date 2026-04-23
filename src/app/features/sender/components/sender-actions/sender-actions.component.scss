@@ -1,0 +1,52 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+:host {
+  display: grid;
+  gap: $space-md;
+}
+
+.actions {
+  @include actions-row;
+  @include actions-mobile-stack;
+}
+
+.primary-button {
+  @include btn-primary;
+  width: fit-content;
+  padding: 14px 22px;
+  border-radius: 14px;
+  box-shadow: $shadow-primary-glow;
+
+  &:disabled {
+    box-shadow: none;
+  }
+}
+
+.secondary-button {
+  @include btn-secondary;
+  width: fit-content;
+  padding: $space-md $space-xl;
+  border-radius: $radius-md;
+}
+
+.danger-button {
+  @include btn-danger;
+  width: fit-content;
+  padding: $space-md $space-xl;
+  border-radius: $radius-md;
+}
+
+.muted {
+  @include text-muted;
+}
+
+@include mobile {
+  .actions {
+    .primary-button,
+    .secondary-button,
+    .danger-button {
+      width: 100%;
+    }
+  }
+}

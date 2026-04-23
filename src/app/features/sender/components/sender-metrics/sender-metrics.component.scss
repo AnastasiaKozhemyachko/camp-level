@@ -1,0 +1,19 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.metrics {
+  @include metrics-grid(14px);
+
+  article {
+    padding: $space-2xl;
+    border-radius: $radius-lg;
+  }
+
+  span {
+    margin-bottom: $space-sm;
+  }
+
+  strong {
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+  }
+}

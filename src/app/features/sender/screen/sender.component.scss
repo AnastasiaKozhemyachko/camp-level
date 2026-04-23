@@ -1,0 +1,26 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.page-card {
+  @include page-card($space-4xl, $space-xl);
+}
+
+.page-copy {
+  h2 {
+    @include section-title;
+  }
+
+  p {
+    @include section-description;
+  }
+}
+
+.page-label {
+  @include eyebrow;
+}
+
+@include mobile {
+  .page-card {
+    padding: 22px;
+  }
+}

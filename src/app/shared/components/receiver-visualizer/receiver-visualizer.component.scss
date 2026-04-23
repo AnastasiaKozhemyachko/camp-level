@@ -1,0 +1,194 @@
+@use 'sass:map';
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// === Severity color map ===
+
+$severity-map: (
+  "green": (
+    color: $color-green,
+    marker: $color-green-marker,
+    marker-border: $color-green-marker-border,
+    bg: $color-green-bg,
+    gradient: $color-green-gradient,
+  ),
+  "orange": (
+    color: $color-orange,
+    marker: $color-orange-marker,
+    marker-border: $color-orange-marker-border,
+    bg: $color-orange-bg,
+    gradient: $color-orange-gradient,
+  ),
+  "red": (
+    color: $color-red,
+    marker: $color-red-marker,
+    marker-border: $color-red-marker-border,
+    bg: $color-red-bg,
+    gradient: $color-red-gradient,
+  ),
+);
+
+@each $name, $colors in $severity-map {
+  .camper-visualizer--#{$name}__guidance {
+    color: map.get($colors, color);
+  }
+
+  .camper-visualizer--#{$name} {
+    background: map.get($colors, gradient);
+    border-color: rgba(map.get($colors, color), 0.3);
+
+    .wheel-item.to-lift {
+      background: map.get($colors, bg);
+      border-color: map.get($colors, marker);
+
+      .wheel-label {
+        color: map.get($colors, marker-border);
+      }
+    }
+  }
+
+  .wheel-marker.active.wheel-marker--#{$name} {
+    background: map.get($colors, marker);
+    border-color: map.get($colors, marker-border);
+    box-shadow:
+      0 0 0 5px rgba(map.get($colors, marker), 0.3),
+      0 0 12px rgba(map.get($colors, marker), 0.9);
+  }
+}
+
+// === Layout ===
+
+:host {
+  display: grid;
+  gap: $space-xl;
+}
+
+.guidance {
+  margin: 0;
+  font-weight: 600;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.instruction {
+  margin: 0;
+  font-weight: 700;
+  text-align: center;
+  font-size: 1.15rem;
+  line-height: 1.4;
+}
+
+.camper-visualizer {
+  display: grid;
+  gap: $space-2xl;
+  padding: $space-2xl;
+  border-radius: 16px;
+  border: 2px solid rgba($color-primary, 0.2);
+  transition: all $transition-slow;
+  background: $color-primary-bg-gradient;
+}
+
+.camper-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 240px;
+  position: relative;
+  overflow: hidden;
+}
+
+.car-image {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  display: block;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba($color-ink, 0.16);
+  box-shadow: $shadow-image;
+  transform: rotate(90deg) scale(0.78);
+  transform-origin: center;
+}
+
+// === Wheel markers ===
+
+.wheel-marker {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: $radius-pill;
+  border: 2px solid $color-primary-dark;
+  background: rgba($color-surface, 0.9);
+  transform: translate(-50%, -50%);
+  transition: all $transition-normal;
+  box-shadow: 0 0 0 4px rgba($color-surface, 0.36);
+
+  &--front-left  { left: 23%; top: 29%; }
+  &--front-right { left: 77%; top: 29%; }
+  &--rear-left   { left: 23%; top: 71%; }
+  &--rear-right  { left: 77%; top: 71%; }
+}
+
+// === Wheels info ===
+
+.wheels-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $space-md;
+}
+
+.wheel-item {
+  padding: $space-md;
+  border-radius: $radius-md;
+  background: $color-surface;
+  border: $border-light;
+  display: flex;
+  flex-direction: column;
+  gap: $space-xs;
+  transition: all $transition-normal;
+}
+
+.wheel-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: $color-text-muted;
+}
+
+.wheel-lift {
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  color: $color-text-dark;
+
+  &.positive { color: $color-lift-positive; }
+  &.negative { color: $color-lift-negative; }
+}
+
+// === Mobile ===
+
+@include mobile {
+  .camper-visualizer {
+    padding: $space-lg;
+    gap: 14px;
+  }
+
+  .camper-container {
+    min-height: 180px;
+  }
+
+  .wheel-marker {
+    width: 16px;
+    height: 16px;
+  }
+
+  .wheels-info {
+    gap: $radius-sm;
+  }
+
+  .wheel-item {
+    padding: $radius-sm;
+    font-size: 0.85rem;
+  }
+}

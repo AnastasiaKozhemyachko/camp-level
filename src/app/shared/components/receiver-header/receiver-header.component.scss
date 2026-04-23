@@ -1,0 +1,36 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+:host {
+  display: grid;
+  gap: $space-sm;
+}
+
+.page-copy {
+  h2 {
+    @include section-title;
+  }
+
+  p {
+    @include section-description;
+  }
+}
+
+.page-label {
+  @include eyebrow;
+}
+
+.status {
+  margin: 0;
+  font-weight: 700;
+  color: $color-text-dark;
+}
+
+.muted {
+  @include text-muted;
+  font-size: 0.875rem;
+}
+
+.error {
+  @include text-error;
+}

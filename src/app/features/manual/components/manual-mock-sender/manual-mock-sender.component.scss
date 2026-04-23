@@ -1,0 +1,55 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.page-card {
+  @include page-card;
+}
+
+.page-copy h2 {
+  @include section-title;
+}
+
+.page-label {
+  @include eyebrow;
+}
+
+.hint {
+  @include section-description;
+}
+
+label {
+  display: grid;
+  gap: $space-sm;
+}
+
+span {
+  font-weight: 700;
+  color: $color-text-secondary;
+}
+
+input[type='range'] {
+  width: 100%;
+}
+
+.actions {
+  @include actions-row;
+  @include actions-mobile-stack;
+}
+
+button {
+  @include btn-primary;
+}
+
+.metrics {
+  @include metrics-grid;
+}
+
+@include mobile {
+  .page-card {
+    padding: 22px;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+}

@@ -1,0 +1,27 @@
+<section class="page-card">
+  <div class="page-copy">
+    <p class="page-label">Sender mode</p>
+    <h2>Publish the camper tilt</h2>
+    <p>
+      Place the device inside the camper, tap <strong>Start sensor</strong>, and this page will sync pitch and roll to Firestore.
+    </p>
+  </div>
+  <app-sender-actions
+    [isSupported]="isSupported"
+    [isTracking]="isTracking()"
+    [isRequestingPermission]="isRequestingPermission()"
+    (startSensor)="startSensor()"
+    (stopTracking)="stopTracking()"
+  ></app-sender-actions>
+
+
+  <app-sender-status
+    [statusMessage]="statusMessage()"
+    [errorMessage]="errorMessage()"
+    [lastSavedAt]="lastSavedAt()"
+    [syncIntervalLabel]="syncIntervalLabel"
+  ></app-sender-status>
+
+  <app-sender-metrics [pitch]="pitch()" [roll]="roll()"></app-sender-metrics>
+</section>
+

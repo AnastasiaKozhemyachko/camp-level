@@ -1,0 +1,21 @@
+<div class="actions">
+  <button
+    class="primary-button"
+    type="button"
+    (click)="startSensor.emit()"
+    [disabled]="isTracking() || isRequestingPermission() || !isSupported()"
+  >
+    {{ isRequestingPermission() ? 'Requesting motion access...' : isTracking() ? 'Sensor running' : 'Start sensor' }}
+  </button>
+
+  @if (isTracking()) {
+    <button class="danger-button" type="button" (click)="stopTracking.emit()">
+      Stop
+    </button>
+  }
+</div>
+
+@if (!isSupported()) {
+  <p class="muted">Sensor API is unavailable here. Use offline mode for local testing.</p>
+}
+

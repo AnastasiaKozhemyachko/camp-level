@@ -1,0 +1,40 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.mode-switch {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: $space-sm;
+  padding: $space-xs;
+  border-radius: $radius-lg;
+  background: $color-primary-bg;
+  width: 100%;
+}
+
+.mode-switch__link {
+  text-decoration: none;
+  padding: $space-sm $space-md;
+  border-radius: $radius-md;
+  color: $color-primary-dark;
+  font-weight: 700;
+  transition: background-color $transition-fast, color $transition-fast, box-shadow $transition-fast;
+  background-color: transparent;
+  text-align: center;
+
+  &.active {
+    background-color: $color-primary;
+    color: $color-surface;
+    box-shadow: 0 6px 16px rgba($color-primary, 0.3);
+  }
+}
+
+@include mobile {
+  .mode-switch {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mode-switch__link {
+    text-align: left;
+  }
+}
+

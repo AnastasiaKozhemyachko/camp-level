@@ -1,0 +1,56 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.page-card {
+  @include page-card;
+}
+
+.page-copy h3 {
+  @include section-title(1.4rem);
+}
+
+.page-label {
+  @include eyebrow;
+}
+
+.hint {
+  @include section-description;
+}
+
+.actions {
+  @include actions-row;
+  @include actions-mobile-stack;
+}
+
+.primary-button {
+  @include btn-primary;
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+.danger-button {
+  @include btn-danger;
+}
+
+.error {
+  @include text-error;
+}
+
+.metrics {
+  @include metrics-grid;
+}
+
+@include mobile {
+  .page-card {
+    padding: 22px;
+  }
+
+  .actions {
+    .primary-button,
+    .danger-button {
+      width: 100%;
+    }
+  }
+}

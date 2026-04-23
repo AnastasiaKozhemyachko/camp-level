@@ -1,0 +1,12 @@
+<p class="status">{{ statusMessage() }}</p>
+
+@if (errorMessage()) {
+  <p class="error">{{ errorMessage() }}</p>
+}
+
+@if (lastSavedAt()) {
+  <p class="muted">Last synced: {{ lastSavedAt() }}</p>
+}
+
+<p class="muted">Sync interval: {{ syncIntervalLabel() }}</p>
+

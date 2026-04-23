@@ -1,0 +1,49 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: $space-3xl;
+}
+
+.app-card {
+  width: min(100%, 760px);
+  background: rgba($color-surface, 0.92);
+  backdrop-filter: blur(14px);
+  border: $border-light;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-card;
+  overflow: hidden;
+}
+
+.hero {
+  display: grid;
+  gap: $space-xl;
+  padding: $space-4xl $space-4xl $space-xl;
+  border-bottom: $border-light;
+}
+
+.hero__content {
+  display: grid;
+  gap: $space-sm;
+}
+
+.eyebrow {
+  @include eyebrow;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  line-height: 1.1;
+}
+
+.lead {
+  margin: $space-md 0 0;
+  max-width: 48ch;
+  color: $color-text-secondary;
+  line-height: 1.5;
+}
+

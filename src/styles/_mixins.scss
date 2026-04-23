@@ -1,0 +1,168 @@
+@use 'variables' as *;
+
+// === Breakpoints ===
+
+@mixin mobile {
+  @media (max-width: $bp-mobile) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: $bp-tablet) {
+    @content;
+  }
+}
+
+// === Eyebrow / page-label ===
+
+@mixin eyebrow {
+  margin: 0 0 $space-sm;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: $color-primary;
+}
+
+// === Page card ===
+
+@mixin page-card($padding: $space-4xl, $gap: $space-lg) {
+  padding: $padding;
+  border-radius: $radius-lg;
+  border: $border-medium;
+  background: $color-surface;
+  display: grid;
+  gap: $gap;
+}
+
+// === Buttons ===
+
+@mixin btn-base {
+  padding: $radius-sm $space-lg;
+  border: none;
+  border-radius: $radius-sm;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@mixin btn-primary {
+  @include btn-base;
+  background: $color-primary;
+  color: $color-surface;
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+}
+
+@mixin btn-secondary {
+  @include btn-base;
+  border: 1px solid $color-primary;
+  background: $color-primary-bg;
+  color: $color-primary-dark;
+
+  &:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+}
+
+@mixin btn-danger {
+  @include btn-base;
+  border: 1px solid $color-danger;
+  background: $color-danger-bg;
+  color: $color-danger-dark;
+}
+
+// === Metrics grid ===
+
+@mixin metrics-grid($gap: 12px) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $gap;
+
+  article {
+    padding: 14px;
+    border-radius: $radius-md;
+    background: $color-surface-soft;
+    border: $border-subtle;
+  }
+
+  span {
+    display: block;
+    color: $color-text-muted;
+    margin-bottom: $space-xs;
+    font-weight: 600;
+  }
+
+  strong {
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+// === Text helpers ===
+
+@mixin text-muted {
+  margin: 0;
+  color: $color-text-muted;
+}
+
+@mixin text-error {
+  margin: 0;
+  color: $color-danger;
+  font-weight: 700;
+}
+
+// === Section copy helpers ===
+
+@mixin section-title($size: 1.6rem) {
+  margin: 0;
+  font-size: $size;
+}
+
+@mixin section-description {
+  margin: 10px 0 0;
+  color: $color-text-secondary;
+  line-height: 1.5;
+}
+
+// === Actions / status groups ===
+
+@mixin actions-row($gap: $space-sm) {
+  display: flex;
+  gap: $gap;
+  flex-wrap: wrap;
+}
+
+@mixin actions-mobile-stack {
+  @include mobile {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
+
+@mixin status-stack($gap: $space-sm) {
+  display: grid;
+  gap: $gap;
+
+  .status {
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .muted {
+    @include text-muted;
+  }
+
+  .error {
+    @include text-error;
+  }
+}
+

@@ -1,0 +1,46 @@
+<section class="page-card">
+  <div class="page-copy">
+    <p class="page-label">Sender mode (manual)</p>
+    <h2>Mock controls</h2>
+    <p class="hint">Move sliders to send synthetic angles to receiver.</p>
+  </div>
+
+  <label>
+    <span>Pitch: {{ pitch() | number: '1.1-1' }}°</span>
+    <input
+      type="range"
+      min="-15"
+      max="15"
+      step="0.1"
+      [value]="pitch()"
+      (input)="onPitchInput($event)"
+    />
+  </label>
+
+  <label>
+    <span>Roll: {{ roll() | number: '1.1-1' }}°</span>
+    <input
+      type="range"
+      min="-15"
+      max="15"
+      step="0.1"
+      [value]="roll()"
+      (input)="onRollInput($event)"
+    />
+  </label>
+
+  <div class="actions">
+    <button type="button" (click)="reset()">Reset to 0°</button>
+  </div>
+
+  <div class="metrics" aria-live="polite">
+    <article>
+      <span>Pitch</span>
+      <strong>{{ pitch() | number: '1.1-1' }}°</strong>
+    </article>
+    <article>
+      <span>Roll</span>
+      <strong>{{ roll() | number: '1.1-1' }}°</strong>
+    </article>
+  </div>
+</section>

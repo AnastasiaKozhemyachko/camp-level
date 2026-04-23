@@ -1,0 +1,87 @@
+// === Colors ===
+
+// Brand
+$color-primary: #4c7cff;
+$color-primary-dark: #3556b5;
+$color-primary-bg: #eef3ff;
+$color-primary-bg-gradient: linear-gradient(135deg, #f0f4ff 0%, #f8fbff 100%);
+
+// Text
+$color-text: #102033;
+$color-text-dark: #1a1d29;
+$color-text-secondary: #475467;
+$color-text-muted: #667085;
+
+// Severity — green
+$color-green: #00b852;
+$color-green-marker: #44dd44;
+$color-green-marker-border: #22aa22;
+$color-green-bg: #e6ffe6;
+$color-green-gradient: linear-gradient(135deg, #e6f5ea 0%, #f0fdf4 100%);
+
+// Severity — orange
+$color-orange: #ff9500;
+$color-orange-marker: #ffaa00;
+$color-orange-marker-border: #ff8800;
+$color-orange-bg: #fff5e6;
+$color-orange-gradient: linear-gradient(135deg, #fff8f0 0%, #fffbf5 100%);
+
+// Severity — red
+$color-red: #ff0000;
+$color-red-marker: #ff4444;
+$color-red-marker-border: #cc0000;
+$color-red-bg: #ffe6e6;
+$color-red-gradient: linear-gradient(135deg, #fff0f0 0%, #fff8f8 100%);
+
+// Danger
+$color-danger: #c52828;
+$color-danger-dark: #9f1c1c;
+$color-danger-bg: #fff0f0;
+
+// Lift colors
+$color-lift-positive: #ff6b6b;
+$color-lift-negative: #4c7cff;
+
+// Surfaces
+$color-surface: #fff;
+$color-surface-soft: #f7f9fc;
+$color-bg: #f4f7fb;
+
+// Borders & shadows (base color)
+$color-ink: rgb(16, 32, 51);
+
+// === Border helpers ===
+$border-light: 1px solid rgba($color-ink, 0.08);
+$border-subtle: 1px solid rgba($color-ink, 0.06);
+$border-medium: 1px solid rgba($color-ink, 0.1);
+
+// === Spacing ===
+$space-xs: 6px;
+$space-sm: 8px;
+$space-md: 12px;
+$space-lg: 16px;
+$space-xl: 18px;
+$space-2xl: 20px;
+$space-3xl: 24px;
+$space-4xl: 28px;
+
+// === Radii ===
+$radius-sm: 10px;
+$radius-md: 12px;
+$radius-lg: 18px;
+$radius-xl: 24px;
+$radius-pill: 999px;
+
+// === Breakpoints ===
+$bp-mobile: 640px;
+$bp-tablet: 1024px;
+
+// === Shadows ===
+$shadow-card: 0 20px 50px rgba($color-ink, 0.12);
+$shadow-image: 0 8px 20px rgba($color-ink, 0.15);
+$shadow-primary-glow: 0 10px 24px rgba($color-primary, 0.24);
+
+// === Transitions ===
+$transition-fast: 120ms ease;
+$transition-normal: 200ms ease;
+$transition-slow: 300ms ease;

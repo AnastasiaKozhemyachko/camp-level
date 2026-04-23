@@ -1,0 +1,6 @@
+@use 'variables' as *;
+
+.offline-receiver {
+  display: grid;
+  gap: $space-xl;
+}

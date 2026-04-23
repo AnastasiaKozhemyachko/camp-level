@@ -1,0 +1,14 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.page-card {
+  padding: $space-4xl;
+  display: grid;
+  gap: $space-xl;
+}
+
+@include mobile {
+  .page-card {
+    padding: $space-lg;
+  }
+}
