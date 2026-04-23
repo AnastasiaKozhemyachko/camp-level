@@ -2,6 +2,7 @@
 node_modules/
 .firebase/
 .angular/
+dist/
 out-tsc/
 coverage/
 .idea/

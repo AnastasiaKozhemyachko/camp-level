@@ -8,8 +8,7 @@
     "start": "ng serve",
     "build": "ng build",
     "check": "ng build --configuration development",
-    "build:gh-pages": "ng build --base-href /camp-level/ && npm run postbuild:gh-pages",
-    "postbuild:gh-pages": "cp -r dist/camp-level/browser/* dist/camp-level/ && touch dist/camp-level/.nojekyll && echo '.nojekyll created' && echo '.gitkeep' > dist/camp-level/browser/.gitkeep"
+    "build:gh-pages": "ng build --base-href /camp-level/ --output-path docs && cp -r docs/browser/* docs/ && touch docs/.nojekyll && echo '✅ Built successfully in docs/'"
   },
   "dependencies": {
     "@angular/common": "^21.2.0",
