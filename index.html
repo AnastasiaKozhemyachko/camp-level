@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body style="font-family: Arial; text-align: center; padding: 20px;">
-
 <h1 id="status">Loading...</h1>
+<button id="startBtn" style="display:none; font-size: 18px; padding: 12px 20px;">
+  Start sensor
+</button>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
@@ -25,53 +27,64 @@
   const db = getFirestore(app);
 
   const isSender = location.hash === "#sender";
+  const statusEl = document.getElementById("status");
+  const startBtn = document.getElementById("startBtn");
 
-  // 📱 iPhone — отправляет данные
   if (isSender) {
-    document.body.innerHTML = "<h1>Sending data...</h1>";
+    statusEl.innerText = "Sender mode";
+    startBtn.style.display = "inline-block";
 
-    async function start() {
-      if (DeviceOrientationEvent.requestPermission) {
-        await DeviceOrientationEvent.requestPermission();
-      }
+    startBtn.addEventListener("click", async () => {
+      try {
+        if (
+            typeof DeviceOrientationEvent !== "undefined" &&
+            typeof DeviceOrientationEvent.requestPermission === "function"
+        ) {
+          const permission = await DeviceOrientationEvent.requestPermission();
+          if (permission !== "granted") {
+            statusEl.innerText = "Motion access denied";
+            return;
+          }
+        }
 
-      window.addEventListener("deviceorientation", async (event) => {
-        const pitch = event.beta;
-        const roll = event.gamma;
+        statusEl.innerText = "Sending data...";
+        startBtn.style.display = "none";
 
-        await setDoc(doc(db, "level", "current"), {
-          pitch,
-          roll
+        window.addEventListener("deviceorientation", async (event) => {
+          const pitch = event.beta;
+          const roll = event.gamma;
+
+          statusEl.innerText = `Sending...\nPitch: ${pitch?.toFixed?.(1)} Roll: ${roll?.toFixed?.(1)}`;
+
+          await setDoc(doc(db, "level", "current"), {
+            pitch,
+            roll,
+            updatedAt: Date.now()
+          });
         });
-      });
-    }
-
-    start();
-
+      } catch (error) {
+        statusEl.innerText = "Error: " + error.message;
+      }
+    });
   } else {
-    // 📱 Android — получает данные
+    statusEl.innerText = "Receiver mode: waiting for data...";
+
     onSnapshot(doc(db, "level", "current"), (docSnap) => {
       const data = docSnap.data();
-      if (!data) return;
+      if (!data) {
+        statusEl.innerText = "No data yet";
+        return;
+      }
 
       const pitch = data.pitch;
       const roll = data.roll;
 
-      const wheel = getWheel(pitch, roll);
-
-      document.getElementById("status").innerText =
-          `Wheel: ${wheel}\nPitch: ${pitch.toFixed(1)} Roll: ${roll.toFixed(1)}`;
+      statusEl.innerText =
+          `Pitch: ${pitch?.toFixed?.(1)}\nRoll: ${roll?.toFixed?.(1)}`;
+    }, (error) => {
+      statusEl.innerText = "Read error: " + error.message;
     });
-
-    function getWheel(pitch, roll) {
-      if (pitch < 0 && roll > 0) return "front-left";
-      if (pitch < 0 && roll < 0) return "front-right";
-      if (pitch > 0 && roll > 0) return "rear-left";
-      if (pitch > 0 && roll < 0) return "rear-right";
-      return "level";
-    }
   }
 </script>
-
 </body>
 </html>

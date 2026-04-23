@@ -11,9 +11,8 @@ An iPhone sends tilt data (pitch & roll) via Firebase, and an Android device dis
 
 ## Setup
 
-1. Host `index.html` (e.g. Firebase Hosting, GitHub Pages, or any static server).
-2. Open `<your-url>#sender` on the phone placed inside the camper.
-3. Open `<your-url>` on the second device to see the result.
+1. Open `https://anastasiakozhemyachko.github.io/camp-level/#sender` on the iPhone placed inside the camper.
+2. Open `https://anastasiakozhemyachko.github.io/camp-level/` on the second device to see the result.
 
 ## Tech
 
