@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Camp Level</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: Arial; text-align: center; padding: 20px;">
+
+<h1 id="status">Loading...</h1>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+  import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAmHErptxxJ3Eop2TGENx_KFPuSdFjKPs8",
+    authDomain: "camp-level.firebaseapp.com",
+    projectId: "camp-level",
+    storageBucket: "camp-level.firebasestorage.app",
+    messagingSenderId: "821228915473",
+    appId: "1:821228915473:web:29cf9b5b07986aebc6dab0"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const isSender = location.hash === "#sender";
+
+  // 📱 iPhone — отправляет данные
+  if (isSender) {
+    document.body.innerHTML = "<h1>Sending data...</h1>";
+
+    async function start() {
+      if (DeviceOrientationEvent.requestPermission) {
+        await DeviceOrientationEvent.requestPermission();
+      }
+
+      window.addEventListener("deviceorientation", async (event) => {
+        const pitch = event.beta;
+        const roll = event.gamma;
+
+        await setDoc(doc(db, "level", "current"), {
+          pitch,
+          roll
+        });
+      });
+    }
+
+    start();
+
+  } else {
+    // 📱 Android — получает данные
+    onSnapshot(doc(db, "level", "current"), (docSnap) => {
+      const data = docSnap.data();
+      if (!data) return;
+
+      const pitch = data.pitch;
+      const roll = data.roll;
+
+      const wheel = getWheel(pitch, roll);
+
+      document.getElementById("status").innerText =
+          `Wheel: ${wheel}\nPitch: ${pitch.toFixed(1)} Roll: ${roll.toFixed(1)}`;
+    });
+
+    function getWheel(pitch, roll) {
+      if (pitch < 0 && roll > 0) return "front-left";
+      if (pitch < 0 && roll < 0) return "front-right";
+      if (pitch > 0 && roll > 0) return "rear-left";
+      if (pitch > 0 && roll < 0) return "rear-right";
+      return "level";
+    }
+  }
+</script>
+
+</body>
+</html>
