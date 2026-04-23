@@ -34,6 +34,11 @@
     statusEl.innerText = "Sender mode";
     startBtn.style.display = "inline-block";
 
+    let currentPitch = 0;
+    let currentRoll = 0;
+    let lastSentPitch = null;
+    let lastSentRoll = null;
+
     startBtn.addEventListener("click", async () => {
       try {
         if (
@@ -47,21 +52,47 @@
           }
         }
 
-        statusEl.innerText = "Sending data...";
+        statusEl.innerText = "Tracking...";
         startBtn.style.display = "none";
 
-        window.addEventListener("deviceorientation", async (event) => {
-          const pitch = event.beta;
-          const roll = event.gamma;
+        window.addEventListener("deviceorientation", (event) => {
+          currentPitch = event.beta ?? 0;
+          currentRoll = event.gamma ?? 0;
 
-          statusEl.innerText = `Sending...\nPitch: ${pitch?.toFixed?.(1)} Roll: ${roll?.toFixed?.(1)}`;
-
-          await setDoc(doc(db, "level", "current"), {
-            pitch,
-            roll,
-            updatedAt: Date.now()
-          });
+          statusEl.innerText =
+              `Tracking...
+Pitch: ${currentPitch.toFixed(1)}
+Roll: ${currentRoll.toFixed(1)}`;
         });
+
+        setInterval(async () => {
+          const shouldSend =
+              lastSentPitch === null ||
+              Math.abs(currentPitch - lastSentPitch) > 0.3 ||
+              Math.abs(currentRoll - lastSentRoll) > 0.3;
+
+          if (!shouldSend) {
+            console.log("Skipped (no significant change)");
+            return;
+          }
+
+          try {
+            await setDoc(doc(db, "level", "current"), {
+              pitch: currentPitch,
+              roll: currentRoll,
+              updatedAt: Date.now()
+            });
+
+            lastSentPitch = currentPitch;
+            lastSentRoll = currentRoll;
+
+            console.log("Sent to Firebase");
+          } catch (error) {
+            console.error(error);
+            statusEl.innerText += `\nWrite error: ${error.message}`;
+          }
+        }, 3000);
+
       } catch (error) {
         statusEl.innerText = "Error: " + error.message;
       }
@@ -69,21 +100,27 @@
   } else {
     statusEl.innerText = "Receiver mode: waiting for data...";
 
-    onSnapshot(doc(db, "level", "current"), (docSnap) => {
-      const data = docSnap.data();
-      if (!data) {
-        statusEl.innerText = "No data yet";
-        return;
-      }
+    onSnapshot(
+        doc(db, "level", "current"),
+        (docSnap) => {
+          const data = docSnap.data();
 
-      const pitch = data.pitch;
-      const roll = data.roll;
+          if (!data) {
+            statusEl.innerText = "No data yet";
+            return;
+          }
 
-      statusEl.innerText =
-          `Pitch: ${pitch?.toFixed?.(1)}\nRoll: ${roll?.toFixed?.(1)}`;
-    }, (error) => {
-      statusEl.innerText = "Read error: " + error.message;
-    });
+          const pitch = data.pitch ?? 0;
+          const roll = data.roll ?? 0;
+
+          statusEl.innerText =
+              `Pitch: ${pitch.toFixed(1)}
+Roll: ${roll.toFixed(1)}`;
+        },
+        (error) => {
+          statusEl.innerText = "Read error: " + error.message;
+        }
+    );
   }
 </script>
 </body>
