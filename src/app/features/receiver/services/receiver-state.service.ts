@@ -9,19 +9,23 @@ import { buildWheelHeights, calculateLevelStatus } from '../../../shared/utils/l
 export class ReceiverStateService {
   private readonly errorService = inject(ErrorService);
 
-  readonly pitch = signal(0);
-  readonly roll = signal(0);
+  readonly orientation = signal({ pitch: 0, roll: 0 });
   readonly updatedAt = signal<number | null>(null);
   readonly statusMessage = signal<string>(COPY.receiver.waiting);
   readonly errorMessage = signal('');
   readonly guidanceMessage = signal<string>(COPY.receiver.waitingGuidance);
 
-  readonly wheelHeights = computed<WheelHeight[]>(() => buildWheelHeights(this.pitch(), this.roll()));
-  readonly levelStatus = computed<LevelStatus>(() => calculateLevelStatus(this.pitch(), this.roll(), this.wheelHeights()));
+  readonly wheelHeights = computed<WheelHeight[]>(() => {
+    const { pitch, roll } = this.orientation();
+    return buildWheelHeights(pitch, roll);
+  });
+  readonly levelStatus = computed<LevelStatus>(() => {
+    const { pitch, roll } = this.orientation();
+    return calculateLevelStatus(pitch, roll, this.wheelHeights());
+  });
 
   applyReading(reading: { pitch: number; roll: number; updatedAt?: number }, receivingMessage: string): void {
-    this.pitch.set(reading.pitch);
-    this.roll.set(reading.roll);
+    this.orientation.set({ pitch: reading.pitch, roll: reading.roll });
     this.updatedAt.set(reading.updatedAt || Date.now());
     this.statusMessage.set(receivingMessage);
     this.errorMessage.set('');
@@ -38,4 +42,3 @@ export class ReceiverStateService {
     this.errorMessage.set(this.errorService.formatError(error));
   }
 }
-

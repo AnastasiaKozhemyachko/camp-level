@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { COPY } from '../../../shared/constants/copy';
 import { LevelService } from '../../../shared/services/level.service';
@@ -20,22 +20,14 @@ import { SenderStatusComponent } from '../components/sender-status/sender-status
   styleUrl: './sender.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SenderComponent {
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly levelService = inject(LevelService);
-  private readonly runtime = inject(SenderRuntimeService);
+export class SenderComponent implements OnInit {
 
-  protected readonly isSupported = this.runtime.isSupported;
-  protected readonly isTracking = this.runtime.isTracking;
-  protected readonly isRequestingPermission = this.runtime.isRequestingPermission;
-  protected readonly pitch = this.runtime.pitch;
-  protected readonly roll = this.runtime.roll;
-  protected readonly lastSavedAt = this.runtime.lastSavedAt;
-  protected readonly errorMessage = this.runtime.errorMessage;
-  protected readonly statusMessage = this.runtime.statusMessage;
+  private readonly levelService = inject(LevelService);
+  protected readonly runtime = inject(SenderRuntimeService);
+
   protected readonly syncIntervalLabel = `${environment.syncIntervalMs / 1000} seconds`;
 
-  constructor() {
+  ngOnInit(): void {
     const config: SenderRuntimeConfig = {
       syncIntervalMs: environment.syncIntervalMs,
       sendThreshold: environment.sendThreshold,
@@ -49,10 +41,6 @@ export class SenderComponent {
     };
 
     this.runtime.configure(config);
-
-    this.destroyRef.onDestroy(() => {
-      this.runtime.destroy();
-    });
   }
 
   protected startSensor(): void {
@@ -63,4 +51,3 @@ export class SenderComponent {
     this.runtime.stop();
   }
 }
-

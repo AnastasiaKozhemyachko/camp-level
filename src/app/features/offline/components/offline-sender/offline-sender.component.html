@@ -9,27 +9,27 @@
     <button
       class="primary-button"
       (click)="startSensor()"
-      [disabled]="isTracking() || isRequestingPermission() || !isSupported"
+      [disabled]="runtime.isTracking() || runtime.isRequestingPermission() || !runtime.isSupported"
     >
-      {{ isRequestingPermission() ? 'Requesting motion access...' : isTracking() ? 'Sensor running' : 'Start sensor' }}
+      {{ runtime.isRequestingPermission() ? 'Requesting motion access...' : runtime.isTracking() ? 'Sensor running' : 'Start sensor' }}
     </button>
-    @if (isTracking()) {
+    @if (runtime.isTracking()) {
       <button class="danger-button" (click)="stopSensor()">Stop</button>
     }
   </div>
 
-  @if (errorMessage(); as err) {
+  @if (runtime.errorMessage(); as err) {
     <p class="error">{{ err }}</p>
   }
 
   <div class="metrics" aria-live="polite">
     <article>
       <span>Pitch</span>
-      <strong>{{ pitch() | number: '1.1-1' }}°</strong>
+      <strong>{{ runtime.pitch() | number: '1.1-1' }}°</strong>
     </article>
     <article>
       <span>Roll</span>
-      <strong>{{ roll() | number: '1.1-1' }}°</strong>
+      <strong>{{ runtime.roll() | number: '1.1-1' }}°</strong>
     </article>
   </div>
 </section>

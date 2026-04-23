@@ -1,6 +1,7 @@
-import { Injectable, inject, signal } from '@angular/core';
-import { Subscription, timer, Subject, EMPTY } from 'rxjs';
-import { concatMap, catchError, finalize, takeUntil, tap } from 'rxjs/operators';
+import { Injectable, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Subscription, timer, EMPTY } from 'rxjs';
+import { concatMap, catchError, finalize, tap } from 'rxjs/operators';
 import { COPY } from '../../../shared/constants/copy';
 import { ErrorService } from '../../../shared/services/error.service';
 import { LevelReading } from '../../../shared/models/level-reading.model';
@@ -10,6 +11,7 @@ import { SenderRuntimeConfig } from '../models/sender-runtime-config.model';
 
 @Injectable()
 export class SenderRuntimeService {
+  private readonly destroyRef = inject(DestroyRef);
   private readonly orientationService = inject(OrientationService);
   private readonly errorService = inject(ErrorService);
 
@@ -30,7 +32,6 @@ export class SenderRuntimeService {
   private syncInProgress = false;
   private orientationSubscription?: Subscription;
   private syncSubscription?: Subscription;
-  private destroy$ = new Subject<void>();
 
   configure(config: SenderRuntimeConfig): void {
     this.config = config;
@@ -47,7 +48,7 @@ export class SenderRuntimeService {
 
     this.orientationService.requestPermission()
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
         finalize(() => this.isRequestingPermission.set(false))
       )
       .subscribe({
@@ -89,8 +90,6 @@ export class SenderRuntimeService {
 
   destroy(): void {
     this.stop();
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   private startOrientationStream(): void {
@@ -117,7 +116,7 @@ export class SenderRuntimeService {
 
     this.syncSubscription = timer(this.config.syncIntervalMs, this.config.syncIntervalMs)
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
         concatMap(() => this.syncCurrentReading())
       )
       .subscribe({
@@ -146,7 +145,7 @@ export class SenderRuntimeService {
 
     return this.config!.writeReading(payload)
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
         tap(() => {
           this.lastSentReading = { ...this.currentReading! };
           this.lastSavedAt.set(new Date(payload.updatedAt).toLocaleTimeString());

@@ -31,6 +31,24 @@ input[type='range'] {
   width: 100%;
 }
 
+.over-limit {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: $color-red;
+}
+
+.limit-banner {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: $color-red;
+  background: rgba($color-red, 0.08);
+  border: 1px solid rgba($color-red, 0.25);
+  border-radius: $radius-md;
+  padding: $space-sm $space-md;
+  margin: 0;
+  line-height: 1.4;
+}
+
 .actions {
   @include actions-row;
   @include actions-mobile-stack;

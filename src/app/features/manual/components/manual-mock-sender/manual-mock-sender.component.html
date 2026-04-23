@@ -9,38 +9,39 @@
     <span>Pitch: {{ pitch() | number: '1.1-1' }}°</span>
     <input
       type="range"
-      min="-15"
-      max="15"
+        [min]="-pitchMax"
+        [max]="pitchMax"
       step="0.1"
       [value]="pitch()"
       (input)="onPitchInput($event)"
     />
+      @if (pitchOverLimit()) {
+        <span class="over-limit">⚠️ Exceeds max {{ maxPitchDeg }}° — airbags cannot compensate</span>
+      }
   </label>
 
   <label>
     <span>Roll: {{ roll() | number: '1.1-1' }}°</span>
     <input
       type="range"
-      min="-15"
-      max="15"
+        [min]="-rollMax"
+        [max]="rollMax"
       step="0.1"
       [value]="roll()"
       (input)="onRollInput($event)"
     />
+      @if (rollOverLimit()) {
+        <span class="over-limit">⚠️ Exceeds max {{ maxRollDeg }}° — airbags cannot compensate</span>
+      }
   </label>
+
+    @if (overLimit()) {
+      <p class="limit-banner">🔴 Tilt exceeds airbag capacity (max {{ maxPitchDeg }}° pitch / {{ maxRollDeg }}° roll). Showing partial correction.</p>
+    }
 
   <div class="actions">
     <button type="button" (click)="reset()">Reset to 0°</button>
   </div>
 
-  <div class="metrics" aria-live="polite">
-    <article>
-      <span>Pitch</span>
-      <strong>{{ pitch() | number: '1.1-1' }}°</strong>
-    </article>
-    <article>
-      <span>Roll</span>
-      <strong>{{ roll() | number: '1.1-1' }}°</strong>
-    </article>
-  </div>
+
 </section>

@@ -16,10 +16,16 @@ export interface LevelStatus {
   /** Message with recommendation for user */
   message: string;
 
-  /** List of wheels to lift (sorted by lift degree) */
+  /** List of wheels to lift (sorted by priority, max 2) */
   wheelsToLift: string[];
 
   /** First wheel from the list to lift, or null if level */
   primaryWheel: string | null;
+
+  /** True when required lift fits max lift constraints */
+  feasible: boolean;
+
+  /** By how many centimeters the required max lift exceeds limits */
+  exceededByCm: number;
 }
 

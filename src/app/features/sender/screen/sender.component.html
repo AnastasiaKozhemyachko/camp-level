@@ -7,21 +7,19 @@
     </p>
   </div>
   <app-sender-actions
-    [isSupported]="isSupported"
-    [isTracking]="isTracking()"
-    [isRequestingPermission]="isRequestingPermission()"
+    [isSupported]="runtime.isSupported"
+    [isTracking]="runtime.isTracking()"
+    [isRequestingPermission]="runtime.isRequestingPermission()"
     (startSensor)="startSensor()"
     (stopTracking)="stopTracking()"
   ></app-sender-actions>
 
-
   <app-sender-status
-    [statusMessage]="statusMessage()"
-    [errorMessage]="errorMessage()"
-    [lastSavedAt]="lastSavedAt()"
+    [statusMessage]="runtime.statusMessage()"
+    [errorMessage]="runtime.errorMessage()"
+    [lastSavedAt]="runtime.lastSavedAt()"
     [syncIntervalLabel]="syncIntervalLabel"
   ></app-sender-status>
 
-  <app-sender-metrics [pitch]="pitch()" [roll]="roll()"></app-sender-metrics>
+  <app-sender-metrics [pitch]="runtime.pitch()" [roll]="runtime.roll()"></app-sender-metrics>
 </section>
-

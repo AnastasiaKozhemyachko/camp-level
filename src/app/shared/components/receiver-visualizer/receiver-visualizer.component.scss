@@ -92,22 +92,27 @@ $severity-map: (
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 240px;
   position: relative;
   overflow: hidden;
+  height: 260px;
+}
+
+.car-wrapper {
+  // Rotate the whole unit (image + markers) together so markers never drift
+  position: relative;
+  width: 260px;
+  transform: rotate(90deg) scale(0.85);
+  transform-origin: center;
+  flex-shrink: 0;
 }
 
 .car-image {
   width: 100%;
-  max-width: 420px;
   height: auto;
   display: block;
-  overflow: hidden;
   border-radius: 14px;
   border: 1px solid rgba($color-ink, 0.16);
   box-shadow: $shadow-image;
-  transform: rotate(90deg) scale(0.78);
-  transform-origin: center;
 }
 
 // === Wheel markers ===
@@ -123,10 +128,10 @@ $severity-map: (
   transition: all $transition-normal;
   box-shadow: 0 0 0 4px rgba($color-surface, 0.36);
 
-  &--front-left  { left: 23%; top: 29%; }
-  &--front-right { left: 77%; top: 29%; }
-  &--rear-left   { left: 23%; top: 71%; }
-  &--rear-right  { left: 77%; top: 71%; }
+  &--front-left  { left: 20%; top: 90%; }
+  &--front-right { left: 20%; top: 10%; }
+  &--rear-left   { left: 80%; top: 90%; }
+  &--rear-right  { left: 80%; top: 10%; }
 }
 
 // === Wheels info ===
@@ -161,9 +166,25 @@ $severity-map: (
   font-weight: 700;
   font-family: 'Courier New', monospace;
   color: $color-text-dark;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  line-height: 1.15;
 
   &.positive { color: $color-lift-positive; }
   &.negative { color: $color-lift-negative; }
+}
+
+.wheel-lift-value--cm {
+  font-weight: 800;
+}
+
+.wheel-lift-value--deg {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: $color-text-muted;
+  opacity: 0.9;
 }
 
 // === Mobile ===
@@ -175,7 +196,11 @@ $severity-map: (
   }
 
   .camper-container {
-    min-height: 180px;
+    height: 200px;
+  }
+
+  .car-wrapper {
+    width: 200px;
   }
 
   .wheel-marker {

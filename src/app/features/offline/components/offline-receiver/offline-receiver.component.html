@@ -1,14 +1,12 @@
 <section class="offline-receiver">
   <app-receiver-header
-    [statusMessage]="statusMessage()"
-    [errorMessage]="errorMessage()"
-    [updatedAt]="updatedAt()"
+    [statusMessage]="state.statusMessage()"
+    [errorMessage]="state.errorMessage()"
+    [updatedAt]="state.updatedAt()"
   ></app-receiver-header>
 
   <app-receiver-visualizer
-    [wheelHeights]="wheelHeights()"
-    [levelStatus]="levelStatus()"
+    [wheelHeights]="state.wheelHeights()"
+    [levelStatus]="state.levelStatus()"
   ></app-receiver-visualizer>
-
-  <app-receiver-metrics [pitch]="pitch()" [roll]="roll()"></app-receiver-metrics>
 </section>
